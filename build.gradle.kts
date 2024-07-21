@@ -27,7 +27,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
-    runtimeOnly("com.h2database:h2")
+    testImplementation("com.h2database:h2")
     runtimeOnly("com.mysql:mysql-connector-j")
     kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -46,4 +46,8 @@ kotlin {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.named<Jar>("jar") {
+    enabled = false
 }
