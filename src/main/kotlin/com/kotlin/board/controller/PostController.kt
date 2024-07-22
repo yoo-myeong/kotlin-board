@@ -1,6 +1,10 @@
 package com.kotlin.board.controller
 
-import com.kotlin.board.controller.dto.*
+import com.kotlin.board.controller.dto.PostCreateRequest
+import com.kotlin.board.controller.dto.PostDetailResponse
+import com.kotlin.board.controller.dto.PostSearchRequest
+import com.kotlin.board.controller.dto.PostSummaryResponse
+import com.kotlin.board.controller.dto.PostUpdateRequest
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -44,7 +48,7 @@ class PostController {
             "content",
             "createdBy",
             LocalDateTime.now().toString(),
-            LocalDateTime.now().toString(),
+            LocalDateTime.now().toString()
         )
 
     @GetMapping("/posts")
