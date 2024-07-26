@@ -13,8 +13,8 @@ import jakarta.persistence.ManyToOne
 class Comment(
     content: String,
     post: Post,
-    createBy: String,
-) : BaseEntity(createdBy = createBy) {
+    createdBy: String,
+) : BaseEntity(createdBy = createdBy) {
     fun update(updateRequestDto: CommentUpdateRequestDto) {
         if (updateRequestDto.updatedBy != this.createdBy) {
             throw CommentNotUpdatableException()

@@ -1,9 +1,11 @@
 package com.kotlin.board.service
 
+import com.kotlin.board.domain.Comment
 import com.kotlin.board.domain.Post
 import com.kotlin.board.exception.PostNotDeletableException
 import com.kotlin.board.exception.PostNotFoundException
 import com.kotlin.board.exception.PostNotUpdatableException
+import com.kotlin.board.repository.CommentRepository
 import com.kotlin.board.repository.PostRepository
 import com.kotlin.board.service.dto.PostCreateRequestDto
 import com.kotlin.board.service.dto.PostSearchRequestDto
@@ -22,6 +24,7 @@ import org.springframework.data.repository.findByIdOrNull
 class PostServiceTest(
     private val postService: PostService,
     private val postRepository: PostRepository,
+    private val commentRepository: CommentRepository,
 ) : BehaviorSpec({
         beforeSpec {
             postRepository.saveAll(
@@ -140,6 +143,18 @@ class PostServiceTest(
             When("게시글이 없을 때") {
                 then("게시글을 찾을 수 없다는 예외가 발생한다") {
                     shouldThrow<PostNotFoundException> { postService.getPost(9999L) }
+                }
+            }
+            When("댓글 추가시") {
+                commentRepository.save(Comment(content = "댓글 내용1", post = saved, createdBy = "댓글 작성자"))
+                commentRepository.save(Comment(content = "댓글 내용2", post = saved, createdBy = "댓글 작성자"))
+                commentRepository.save(Comment(content = "댓글 내용3", post = saved, createdBy = "댓글 작성자"))
+                val post = postService.getPost(saved.id)
+                then("댓글이 함께 조회됨을 확인합니다.") {
+                    post.comments.size shouldBe 3
+                    post.comments[0].content shouldBe "댓글 내용1"
+                    post.comments[1].content shouldBe "댓글 내용2"
+                    post.comments[2].content shouldBe "댓글 내용3"
                 }
             }
         }

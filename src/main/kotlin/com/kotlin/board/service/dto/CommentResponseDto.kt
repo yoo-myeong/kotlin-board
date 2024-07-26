@@ -1,16 +1,18 @@
 package com.kotlin.board.service.dto
 
 import com.kotlin.board.domain.Comment
-import com.kotlin.board.domain.Post
 
-data class CommentCreateRequestDto(
+data class CommentResponseDto(
+    val id: Long,
     val content: String,
+    val createdAt: String,
     val createdBy: String,
 )
 
-fun CommentCreateRequestDto.toEntity(post: Post) =
-    Comment(
+fun Comment.toResponseDto() =
+    CommentResponseDto(
+        id = id,
         content = content,
         createdBy = createdBy,
-        post = post,
+        createdAt = createdAt.toString(),
     )
