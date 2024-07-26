@@ -1,11 +1,10 @@
-package com.kotlin.board
+package com.kotlin.board.service
 
 import com.kotlin.board.domain.Post
 import com.kotlin.board.exception.PostNotDeletableException
 import com.kotlin.board.exception.PostNotFoundException
 import com.kotlin.board.exception.PostNotUpdatableException
 import com.kotlin.board.repository.PostRepository
-import com.kotlin.board.service.PostService
 import com.kotlin.board.service.dto.PostCreateRequestDto
 import com.kotlin.board.service.dto.PostSearchRequestDto
 import com.kotlin.board.service.dto.PostUpdateRequestDto
