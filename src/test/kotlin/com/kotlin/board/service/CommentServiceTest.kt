@@ -35,7 +35,7 @@ class CommentServiceTest(
             When("인풋이 정상적으로 들어오면") {
                 val commentId =
                     commentService.createdComment(
-                        1L,
+                        post.id,
                         CommentCreateRequestDto(
                             content = "댓글 내용",
                             createdBy = "댓글 생성자",
@@ -83,7 +83,7 @@ class CommentServiceTest(
                         ),
                     )
                 then("정상 수정됨을 확인한다.") {
-                    updatedId shouldBe 1L
+                    updatedId shouldBe saved.id
                     val updated = commentRepository.findByIdOrNull(updatedId)
                     updated?.content shouldBe "수정된 댓글 내용"
                     updated?.updatedBy shouldBe "댓글 생성자"
@@ -93,7 +93,7 @@ class CommentServiceTest(
                 then("수정할 수 없는 게시물 예외가 발생한다") {
                     shouldThrow<CommentNotUpdatableException> {
                         commentService.updateComment(
-                            1L,
+                            saved.id,
                             CommentUpdateRequestDto(
                                 content = "수정된 댓글 내용",
                                 updatedBy = "댓글 수정자",
