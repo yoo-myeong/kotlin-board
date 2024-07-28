@@ -14,4 +14,5 @@ fun PostCreateRequest.toDto() =
         title = this.title,
         content = this.content,
         createdBy = this.createdBy,
+        tags = tags,
     )

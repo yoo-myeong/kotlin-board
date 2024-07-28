@@ -14,4 +14,5 @@ fun PostUpdateRequest.toDto() =
         title = this.title,
         content = this.content,
         updatedBy = this.updatedBy,
+        tags = tags,
     )

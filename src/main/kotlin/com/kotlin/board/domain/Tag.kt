@@ -12,7 +12,7 @@ class Tag(
     name: String,
     post: Post,
     createdBy: String,
-) {
+) : BaseEntity(createdBy) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L
