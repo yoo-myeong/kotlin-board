@@ -1,8 +1,10 @@
 package com.kotlin.board.service
 
+import com.kotlin.board.controller.dto.toSummaryResponseDto
 import com.kotlin.board.exception.PostNotDeletableException
 import com.kotlin.board.exception.PostNotFoundException
 import com.kotlin.board.repository.PostRepository
+import com.kotlin.board.repository.TagRepository
 import com.kotlin.board.service.dto.PostCreateRequestDto
 import com.kotlin.board.service.dto.PostDetailResponseDto
 import com.kotlin.board.service.dto.PostSearchRequestDto
@@ -22,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional
 class PostService(
     private val postRepository: PostRepository,
     private val likeService: LikeService,
+    private val tagRepository: TagRepository,
 ) {
     @Transactional
     fun createPost(requestDto: PostCreateRequestDto): Long = postRepository.save(requestDto.toEntity()).id
@@ -56,6 +59,10 @@ class PostService(
     fun findPageBy(
         pageRequest: Pageable,
         postSearchRequestDto: PostSearchRequestDto,
-    ): Page<PostSummaryResponseDto> =
-        postRepository.findPageBy(pageRequest, postSearchRequestDto).toSummaryResponseDto(likeService::countLike)
+    ): Page<PostSummaryResponseDto> {
+        postSearchRequestDto.tag?.let {
+            return tagRepository.findPageBy(pageRequest, it).toSummaryResponseDto(likeService::countLike)
+        }
+        return postRepository.findPageBy(pageRequest, postSearchRequestDto).toSummaryResponseDto(likeService::countLike)
+    }
 }
